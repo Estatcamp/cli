@@ -1,4 +1,6 @@
 FROM golang:alpine AS builder
+LABEL author="estat"
+LABEL project="gh-cli"
 
 # Get build dependencies
 RUN apk --no-cache add git make gcc musl-dev
@@ -22,6 +24,7 @@ COPY go.* .
 RUN ["make"]
 
 FROM alpine:3.12 AS runner
+
 COPY --from=builder /go/gh-cli/bin/gh /usr/local/bin
 ENTRYPOINT [ "gh" ]
 CMD [ "help" ]
