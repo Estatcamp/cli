@@ -25,6 +25,10 @@ RUN ["make"]
 
 FROM alpine:3.12 AS runner
 
+WORKDIR /root/
+
+RUN [ "apk", "add", "--no-cache", "git" ]
+
 COPY --from=builder /go/gh-cli/bin/gh /usr/local/bin
 ENTRYPOINT [ "gh" ]
 CMD [ "help" ]
